@@ -1,0 +1,386 @@
+/* BreachSense Light-Mode Only Design System */
+:root {
+  --bg-main: #F7F8FA;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F0F2F5;
+  --text-primary: #1A1A1A;
+  --text-secondary: #5F6368;
+  --text-muted: #80868B;
+  --accent-primary: #1D6FD9;
+  --accent-hover: #1557B0;
+  --accent-light: #EBF3FE;
+  --danger-start: #F59E0B;
+  --danger-end: #DC2626;
+  --danger-light: #FEF2F2;
+  --danger-border: #FCA5A5;
+  --warning-light: #FFFBEB;
+  --warning-border: #FDE68A;
+  --safe-primary: #16A34A;
+  --safe-light: #F0FDF4;
+  --border-light: #E2E4E8;
+  --border-active: #BFDBFE;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar (Light UI) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F3F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Card Styling */
+.bs-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bs-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(29, 111, 217, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(29, 111, 217, 0.25);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger-start), var(--danger-end));
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
+}
+
+.btn-danger:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35);
+}
+
+.btn-outline {
+  background-color: #FFFFFF;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-subtle);
+  border-color: #CBD5E1;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-pilot {
+  background-color: #E0F2FE;
+  color: #0369A1;
+  border: 1px solid #BAE6FD;
+}
+
+.badge-coming {
+  background-color: #F3F4F6;
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+}
+
+/* Part A — Dashboard Layout (Fixed Left Map + Scrollable Right Panel) */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+.map-column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--border-light);
+}
+
+.map-wrapper {
+  flex: 1;
+  min-height: 0; /* Required so Leaflet map fills flex parent correctly */
+}
+
+.info-column {
+  height: 100%;
+  overflow-y: auto; /* ONLY this column scrolls */
+  padding: 24px;
+  background: var(--bg-main);
+}
+
+/* Part B — Below-Map Controller Bar */
+.map-controller-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-light);
+  flex-shrink: 0; /* Never compress, always visible */
+  z-index: 100;
+}
+
+.controller-group {
+  display: flex;
+  gap: 6px;
+}
+
+.controller-group button, .reset-view-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.reset-view-btn {
+  width: auto;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+.controller-group button:hover, .reset-view-btn:hover {
+  background: var(--bg-subtle);
+  border-color: #CBD5E1;
+}
+
+.controller-group button:active, .reset-view-btn:active {
+  border-color: var(--accent-primary);
+  background-color: var(--accent-light);
+}
+
+/* Settlement Impact Cards Grid */
+.settlement-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.6rem;
+  transition: all 0.15s ease;
+}
+
+.settlement-card.settlement-critical {
+  background-color: #FEF2F2;
+  border-color: #FCA5A5;
+}
+
+.settlement-card.settlement-high {
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+}
+
+.settlement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.settlement-header h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.settlement-header .region {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.advisory-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.advisory-critical, .advisory-red {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FCA5A5;
+}
+
+.advisory-high, .advisory-orange {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.advisory-moderate, .advisory-yellow {
+  background-color: #EFF6FF;
+  color: #1D6FD9;
+  border: 1px solid #BFDBFE;
+}
+
+.settlement-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0.4rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 0.5rem;
+}
+
+.settlement-stats-grid .stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.stat-value.stat-highlight {
+  color: #1D6FD9;
+}
+
+.stat-value.stat-danger {
+  color: #DC2626;
+}
+
+.settlement-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.settlement-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Responsive Layout below 1024px */
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50vh 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  .map-column {
+    height: 50vh;
+    position: static;
+  }
+
+  .info-column {
+    height: auto;
+    overflow-y: visible;
+  }
+}
