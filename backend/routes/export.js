@@ -15,10 +15,12 @@ router.post('/', async (req, res) => {
 
   const endpoint = format === 'shp' ? '/export/shp' : '/export/kml';
 
+  const targetUrl = process.env.PYTHON_SIM_URL || 'http://localhost:8000';
+
   try {
-    const pyResponse = await axios.post(`${PYTHON_SIM_URL}${endpoint}`, simulationData, {
+    const pyResponse = await axios.post(`${targetUrl}${endpoint}`, simulationData, {
       responseType: 'arraybuffer',
-      timeout: 5000
+      timeout: 35000
     });
 
     const damName = (simulationData.dam_name || 'Dam').replace(/\s+/g, '_');

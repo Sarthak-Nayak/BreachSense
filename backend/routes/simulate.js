@@ -190,17 +190,19 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'damId is required' });
   }
 
+  const targetUrl = process.env.PYTHON_SIM_URL || 'http://localhost:8000';
+
   try {
-    const response = await axios.post(`${PYTHON_SIM_URL}/simulate`, {
+    const response = await axios.post(`${targetUrl}/simulate`, {
       dam_id: damId,
       breach_type: breachType,
       breach_size: breachSize,
       water_level_pct: Number(waterLevelPct)
-    }, { timeout: 3000 });
+    }, { timeout: 35000 });
     
     return res.json(response.data);
   } catch (pyErr) {
-    console.warn(`[BreachSense Backend] Python simulation service offline (${pyErr.message}). Using built-in hydrodynamic engine fallback.`);
+    console.warn(`[BreachSense Backend] Python simulation service at ${targetUrl} offline (${pyErr.message}). Using built-in hydrodynamic engine fallback.`);
     const result = runFallbackJsSimulation(damId, breachType, breachSize, Number(waterLevelPct));
     return res.json(result);
   }
