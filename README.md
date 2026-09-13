@@ -88,7 +88,7 @@ Launch all 3 services using `start.bat` on Windows or manually:
 1. **Python Simulation Service (Port 8000)**:
    ```bash
    cd simulation
-   pip install -r requirements.txt
+   pip install fastapi uvicorn pydantic numpy shapely python-multipart
    python -m uvicorn main:app --port 8000 --reload
    ```
 
