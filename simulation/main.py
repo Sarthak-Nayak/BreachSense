@@ -16,6 +16,8 @@ app = FastAPI(
     version="2.0.0"
 )
 
+# Permissive CORS middleware configured for internal service-to-service communication
+# (e.g., server-to-server calls from Node/Express backend or client apps)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,12 +26,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))
+DATA_DIR = os.getenv("DATA_DIR", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data")))
+if not os.path.exists(DATA_DIR):
+    DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
 
 def load_json_file(filename):
     filepath = os.path.join(DATA_DIR, filename)
     if not os.path.exists(filepath):
-        raise FileNotFoundError(f"Data file not found at {filepath}")
+        alt_filepath = os.path.join(os.path.dirname(__file__), "data", filename)
+        if os.path.exists(alt_filepath):
+            filepath = alt_filepath
+        else:
+            raise FileNotFoundError(f"Data file not found at {filepath} or {alt_filepath}")
     with open(filepath, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -42,7 +50,7 @@ class SimulateRequest(BaseModel):
 @app.get("/health")
 def health_check():
     return {
-        "status": "online",
+        "status": "ok",
         "service": "BreachSense Hydrodynamic Engine",
         "dataset_agnostic": True,
         "gee_sentinel1": "Active"

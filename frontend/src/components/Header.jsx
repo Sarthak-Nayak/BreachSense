@@ -29,7 +29,7 @@ export default function Header({ damsCount, activeSim }) {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: 0 }}>
-              Breach
+              BreachSense
             </h1>
           </div>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>

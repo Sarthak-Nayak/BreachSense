@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: breachsense-simulation
+    env: docker
+    dockerfilePath: ./simulation/Dockerfile
+    dockerContext: ./simulation
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
