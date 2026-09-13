@@ -384,3 +384,20 @@ body {
     overflow-y: visible;
   }
 }
+
+/* Responsive for tablets and smaller */
+@media (max-width: 768px) {
+  .hero-grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dam-history-card-inner {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+
+  .dam-history-card-image {
+    height: 200px !important;
+  }
+}
+

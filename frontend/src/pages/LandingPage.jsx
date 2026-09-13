@@ -1,56 +1,101 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Waves, ArrowRight, ShieldAlert, Map, Sliders, Satellite, FileSpreadsheet, Activity, CheckCircle, Database } from 'lucide-react';
+import { ArrowRight, ShieldAlert, Map, Sliders, Satellite, FileSpreadsheet, Activity, CheckCircle, Database } from 'lucide-react';
+import DamBreakHistory from '../components/DamBreakHistory';
 
 export default function LandingPage() {
   return (
-    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: 'calc(100vh - 60px)', display: 'flex', flexDirection: 'column' }}>
-      {/* Hero Section */}
+    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: 'calc(100vh - 64px)', display: 'flex', flexDirection: 'column' }}>
+      {/* Hero Section - Two Column Layout */}
       <section style={{
         backgroundColor: '#FFFFFF',
         borderBottom: '1px solid var(--border-light)',
-        padding: '4.5rem 1.5rem 4rem 1.5rem',
-        textAlign: 'center',
+        padding: '3.5rem 2rem',
         boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{
+          maxWidth: '1300px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '3rem',
+          alignItems: 'center'
+        }}>
+          {/* Left - Text Content */}
+          <div>
+            <h1 style={{
+              fontSize: '2.6rem',
+              fontWeight: 800,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.15,
+              marginBottom: '1.25rem'
+            }}>
+              Dam Break Inundation Modelling &<br />
+              <span style={{ color: 'var(--accent-primary)' }}>Hydrodynamic Early-Warning System</span>
+            </h1>
 
-          <h1 style={{
-            fontSize: '2.75rem',
-            fontWeight: 800,
-            color: 'var(--text-primary)',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.2,
-            marginBottom: '1rem'
+            <p style={{
+              fontSize: '1.05rem',
+              color: 'var(--text-secondary)',
+              maxWidth: '540px',
+              lineHeight: 1.65,
+              marginBottom: '2rem'
+            }}>
+              BreachSense delivers real-time dam failure simulations, downstream flood wave propagation routing, and instant risk zone warnings across India using open-source hydro-infrastructure datasets and Sentinel-1 SAR satellite imagery.
+            </p>
+
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <Link to="/dashboard" className="btn-primary" style={{ fontSize: '1rem', padding: '0.85rem 1.75rem', borderRadius: '8px' }}>
+                Launch Simulation Dashboard <ArrowRight size={18} />
+              </Link>
+
+              <Link to="/docs" className="btn-outline" style={{ fontSize: '1rem', padding: '0.85rem 1.5rem', borderRadius: '8px' }}>
+                Read Technical Documentation
+              </Link>
+            </div>
+          </div>
+
+          {/* Right - Video */}
+          <div style={{
+            position: 'relative',
+            borderRadius: 'var(--radius-lg)',
+            overflow: 'hidden',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+            border: '1px solid var(--border-light)',
+            aspectRatio: '16 / 10',
           }}>
-            Dam Break Inundation Modelling &amp;<br />
-            <span style={{ color: 'var(--accent-primary)' }}>Hydrodynamic Early-Warning System</span>
-          </h1>
-
-          <p style={{
-            fontSize: '1.1rem',
-            color: 'var(--text-secondary)',
-            maxWidth: '740px',
-            margin: '0 auto 2rem auto',
-            lineHeight: 1.6
-          }}>
-            BreachSense delivers real-time dam failure simulations, downstream flood wave propagation routing, and instant risk zone warnings across India using open-source hydro-infrastructure datasets and Sentinel-1 SAR satellite imagery.
-          </p>
-
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-            <Link to="/dashboard" className="btn-primary" style={{ fontSize: '1rem', padding: '0.85rem 1.75rem', borderRadius: '8px' }}>
-              Launch Simulation Dashboard <ArrowRight size={18} />
-            </Link>
-
-            <Link to="/docs" className="btn-outline" style={{ fontSize: '1rem', padding: '0.85rem 1.5rem', borderRadius: '8px' }}>
-              Read Technical Documentation
-            </Link>
+            <video
+              key="/vedio.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            >
+              <source src="/vedio.mp4" type="video/mp4" />
+            </video>
+            {/* Subtle overlay gradient at the bottom */}
+            <div style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '60px',
+              background: 'linear-gradient(transparent, rgba(0,0,0,0.15))',
+              pointerEvents: 'none'
+            }} />
           </div>
         </div>
       </section>
 
       {/* Problem Statement Section */}
-      <section style={{ padding: '3.5rem 1.5rem', maxWidth: '1100px', margin: '0 auto' }}>
+      <section style={{ padding: '3.5rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)' }}>
             The Need for Hydrodynamic Breach Modelling
@@ -85,6 +130,9 @@ export default function LandingPage() {
             </p>
           </div>
         </div>
+
+        {/* Dam Break History Sliding Cards */}
+        <DamBreakHistory />
       </section>
 
       {/* Key Features Section (4-Column Grid) */}
