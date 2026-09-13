@@ -66,7 +66,7 @@ export default function LandingPage() {
             aspectRatio: '16 / 10',
           }}>
             <video
-              src="/vedio.mp4"
+              key="/vedio.mp4"
               autoPlay
               muted
               loop
@@ -77,7 +77,9 @@ export default function LandingPage() {
                 objectFit: 'cover',
                 display: 'block',
               }}
-            />
+            >
+              <source src="/vedio.mp4" type="video/mp4" />
+            </video>
             {/* Subtle overlay gradient at the bottom */}
             <div style={{
               position: 'absolute',
