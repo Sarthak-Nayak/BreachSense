@@ -11,7 +11,6 @@ import RiskZonePanel from '../components/RiskZonePanel';
 import EarlyWarningPanel from '../components/EarlyWarningPanel';
 import LossDamagePanel from '../components/LossDamagePanel';
 import HydrographChart from '../components/HydrographChart';
-import SimulationEnginePanel from '../components/SimulationEnginePanel';
 import ExportPanel from '../components/ExportPanel';
 
 export default function DashboardPage({ activeSim, setActiveSim }) {
@@ -128,19 +127,11 @@ export default function DashboardPage({ activeSim, setActiveSim }) {
             />
           )}
 
-          {/* Hydrodynamic Engine & Model Diagnostics */}
-          {simulationResult && (
-            <SimulationEnginePanel simulationResult={simulationResult} />
-          )}
-
           {/* Recharts Outflow Hydrograph */}
           {simulationResult && (
             <HydrographChart
               breachParams={simulationResult.breach_params}
               damName={simulationResult.dam_name}
-              engineUsed={simulationResult.engine_used}
-              engineTier={simulationResult.engine_tier}
-              engineLabel={simulationResult.engine_label}
             />
           )}
 
