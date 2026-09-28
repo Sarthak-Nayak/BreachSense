@@ -155,10 +155,6 @@ function runFallbackJsSimulation(damId, breachType, breachSize, waterLevelPct) {
     hydrograph.push({ time_min: t_min, time_hr: Math.round(t_hr * 100) / 100, discharge_cumec: Math.round(q_t * 100) / 100 });
   }
 
-  const engineTier = dam.engine_tier || (dam.is_pilot ? 'advanced' : 'simplified');
-  const engineUsed = engineTier === 'advanced' ? 'sph_dflow1d' : 'froehlich_simplified';
-  const engineLabel = engineTier === 'advanced' ? 'Advanced (SPH Near-Field + 1D Hydrodynamic Routing)' : 'Simplified (Empirical Breach Model)';
-
   return {
     simulation_id: `sim-${dam.id}-${breachType}-${breachSize}`,
     dam_id: dam.id,
@@ -168,9 +164,6 @@ function runFallbackJsSimulation(damId, breachType, breachSize, waterLevelPct) {
     breach_type: breachType,
     breach_size: breachSize,
     water_level_pct: waterLevelPct,
-    engine_tier: engineTier,
-    engine_used: engineUsed,
-    engine_label: engineLabel,
     breach_params: {
       q_peak_cumec: Math.round(q_peak * 100) / 100,
       b_avg_m: Math.round(b_avg * 100) / 100,

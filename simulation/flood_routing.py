@@ -71,13 +71,12 @@ def generate_downstream_path(dam_info):
 def calculate_flood_extent_polygon(center_path, current_reach_dist_km, max_width_km, depth_m):
     """
     Generates GeoJSON Polygon coordinates around river path segment up to current reach distance.
-    Sub-samples river reach segment with smooth interpolation to eliminate blocky polygon artifacts.
     """
     if len(center_path) < 2:
         return []
     
     total_dist = 0.0
-    raw_active_points = [center_path[0]]
+    active_points = [center_path[0]]
     
     for i in range(1, len(center_path)):
         p1, p2 = center_path[i-1], center_path[i]
@@ -86,30 +85,17 @@ def calculate_flood_extent_polygon(center_path, current_reach_dist_km, max_width
         seg_dist = math.sqrt(d_lat**2 + d_lng**2)
         
         if total_dist + seg_dist <= current_reach_dist_km:
-            raw_active_points.append(p2)
+            active_points.append(p2)
             total_dist += seg_dist
         else:
             frac = max(0.01, min(0.99, (current_reach_dist_km - total_dist) / seg_dist))
             interp_lat = p1[0] + (p2[0] - p1[0]) * frac
             interp_lng = p1[1] + (p2[1] - p1[1]) * frac
-            raw_active_points.append((interp_lat, interp_lng))
+            active_points.append((interp_lat, interp_lng))
             break
 
-    if len(raw_active_points) < 2:
+    if len(active_points) < 2:
         return []
-
-    # Sub-sample raw active points to create smooth curvilinear river reach nodes (4 sub-steps per segment)
-    active_points = []
-    for idx in range(len(raw_active_points) - 1):
-        pt1 = raw_active_points[idx]
-        pt2 = raw_active_points[idx + 1]
-        steps = 4
-        for s in range(steps):
-            t = s / float(steps)
-            lat_sub = pt1[0] + (pt2[0] - pt1[0]) * t
-            lng_sub = pt1[1] + (pt2[1] - pt1[1]) * t
-            active_points.append((lat_sub, lng_sub))
-    active_points.append(raw_active_points[-1])
 
     left_bank = []
     right_bank = []
@@ -117,9 +103,7 @@ def calculate_flood_extent_polygon(center_path, current_reach_dist_km, max_width
     num_pts = len(active_points)
     for idx, (lat, lng) in enumerate(active_points):
         progress = idx / float(num_pts - 1) if num_pts > 1 else 1.0
-        
-        # Hydrodynamic expansion: Tear-shaped front expansion tapering at nose
-        width_factor = max_width_km * math.sin(progress * math.pi) * 0.75 + (max_width_km * 0.35)
+        width_factor = max_width_km * math.sin(progress * math.pi) * 0.8 + (max_width_km * 0.4)
         
         if idx < num_pts - 1:
             next_pt = active_points[idx + 1]
