@@ -17,7 +17,8 @@
     "is_pilot": true,
     "type": "Earth and Rock-fill",
     "spillway_capacity_cumec": 15540,
-    "crest_elevation_m": 839.5
+    "crest_elevation_m": 839.5,
+    "engine_tier": "advanced"
   },
   {
     "id": "dam-sardar-sarovar",
@@ -37,7 +38,8 @@
     "is_pilot": true,
     "type": "Gravity Dam",
     "spillway_capacity_cumec": 84950,
-    "crest_elevation_m": 146.5
+    "crest_elevation_m": 146.5,
+    "engine_tier": "advanced"
   },
   {
     "id": "dam-bhakra",
@@ -57,7 +59,8 @@
     "is_pilot": true,
     "type": "Concrete Gravity",
     "spillway_capacity_cumec": 8500,
-    "crest_elevation_m": 518.2
+    "crest_elevation_m": 518.2,
+    "engine_tier": "advanced"
   },
   {
     "id": "dam-hirakud",
@@ -65,8 +68,8 @@
     "river": "Mahanadi River",
     "state": "Odisha",
     "district": "Sambalpur",
-    "lat": 21.5700,
-    "lng": 83.8700,
+    "lat": 21.57,
+    "lng": 83.87,
     "height_m": 60.96,
     "length_m": 25800,
     "storage_capacity_mcm": 5896,
@@ -77,7 +80,8 @@
     "is_pilot": true,
     "type": "Composite Structure",
     "spillway_capacity_cumec": 42450,
-    "crest_elevation_m": 192.0
+    "crest_elevation_m": 192.0,
+    "engine_tier": "advanced"
   },
   {
     "id": "dam-mullaperiyar",
@@ -97,7 +101,8 @@
     "is_pilot": true,
     "type": "Masonry Gravity",
     "spillway_capacity_cumec": 3450,
-    "crest_elevation_m": 473.0
+    "crest_elevation_m": 473.0,
+    "engine_tier": "advanced"
   },
   {
     "id": "dam-idukki",
@@ -117,7 +122,8 @@
     "is_pilot": false,
     "type": "Double Curvature Arch",
     "spillway_capacity_cumec": 5012,
-    "crest_elevation_m": 725.5
+    "crest_elevation_m": 725.5,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-nagarjuna-sagar",
@@ -137,7 +143,8 @@
     "is_pilot": false,
     "type": "Masonry Gravity",
     "spillway_capacity_cumec": 42450,
-    "crest_elevation_m": 181.0
+    "crest_elevation_m": 181.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-koyna",
@@ -157,7 +164,8 @@
     "is_pilot": false,
     "type": "Rubble Concrete Gravity",
     "spillway_capacity_cumec": 15500,
-    "crest_elevation_m": 659.0
+    "crest_elevation_m": 659.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-tungabhadra",
@@ -177,7 +185,8 @@
     "is_pilot": false,
     "type": "Masonry Gravity",
     "spillway_capacity_cumec": 18400,
-    "crest_elevation_m": 498.0
+    "crest_elevation_m": 498.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-rihand",
@@ -197,7 +206,8 @@
     "is_pilot": false,
     "type": "Concrete Gravity",
     "spillway_capacity_cumec": 13300,
-    "crest_elevation_m": 272.0
+    "crest_elevation_m": 272.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-ukai",
@@ -206,7 +216,7 @@
     "state": "Gujarat",
     "district": "Tapi",
     "lat": 21.2483,
-    "lng": 73.5900,
+    "lng": 73.59,
     "height_m": 80.77,
     "length_m": 4928,
     "storage_capacity_mcm": 7414,
@@ -217,7 +227,8 @@
     "is_pilot": false,
     "type": "Earth-cum-Masonry",
     "spillway_capacity_cumec": 46269,
-    "crest_elevation_m": 105.1
+    "crest_elevation_m": 105.1,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-mettur",
@@ -225,8 +236,8 @@
     "river": "Kaveri River",
     "state": "Tamil Nadu",
     "district": "Salem",
-    "lat": 11.8000,
-    "lng": 77.8000,
+    "lat": 11.8,
+    "lng": 77.8,
     "height_m": 65,
     "length_m": 1600,
     "storage_capacity_mcm": 2640,
@@ -237,7 +248,8 @@
     "is_pilot": false,
     "type": "Masonry Gravity",
     "spillway_capacity_cumec": 13000,
-    "crest_elevation_m": 240.0
+    "crest_elevation_m": 240.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-srisailam",
@@ -245,8 +257,8 @@
     "river": "Krishna River",
     "state": "Andhra Pradesh / Telangana",
     "district": "Nandyal",
-    "lat": 16.0860,
-    "lng": 78.8970,
+    "lat": 16.086,
+    "lng": 78.897,
     "height_m": 145.1,
     "length_m": 512,
     "storage_capacity_mcm": 6150,
@@ -257,7 +269,8 @@
     "is_pilot": false,
     "type": "Gravity Masonry",
     "spillway_capacity_cumec": 38000,
-    "crest_elevation_m": 272.0
+    "crest_elevation_m": 272.0,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-almatti",
@@ -277,7 +290,8 @@
     "is_pilot": false,
     "type": "Concrete Gravity",
     "spillway_capacity_cumec": 31100,
-    "crest_elevation_m": 524.2
+    "crest_elevation_m": 524.2,
+    "engine_tier": "simplified"
   },
   {
     "id": "dam-indirasagar",
@@ -297,6 +311,7 @@
     "is_pilot": false,
     "type": "Concrete Gravity",
     "spillway_capacity_cumec": 83500,
-    "crest_elevation_m": 262.1
+    "crest_elevation_m": 262.1,
+    "engine_tier": "simplified"
   }
 ]

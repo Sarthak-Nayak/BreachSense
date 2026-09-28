@@ -6,11 +6,11 @@ export default function BreachControls({ selectedDam, onRunSimulation, loading }
   const [breachSize, setBreachSize] = useState('catastrophic');
   const [waterLevelPct, setWaterLevelPct] = useState(100);
 
-  const isSimulatable = selectedDam?.is_pilot;
+  const isAdvanced = selectedDam?.engine_tier === 'advanced' || selectedDam?.is_pilot;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isSimulatable || loading) return;
+    if (!selectedDam || loading) return;
     onRunSimulation({
       damId: selectedDam.id,
       breachType,
@@ -21,14 +21,28 @@ export default function BreachControls({ selectedDam, onRunSimulation, loading }
 
   return (
     <div className="bs-card">
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-        <Sliders size={18} color="var(--accent-primary)" />
-        <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-          Breach Scenario Parameters
-        </h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Sliders size={18} color="var(--accent-primary)" />
+          <h3 style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+            Breach Scenario Parameters
+          </h3>
+        </div>
+
+        {selectedDam && (
+          <span className="badge" style={{
+            backgroundColor: isAdvanced ? '#DCFCE7' : '#F1F5F9',
+            color: isAdvanced ? '#15803D' : '#475569',
+            fontSize: '0.7rem',
+            fontWeight: 700,
+            border: `1px solid ${isAdvanced ? '#86EFAC' : '#CBD5E1'}`
+          }}>
+            {isAdvanced ? 'ADVANCED SPH + 1D HYDRO' : 'SIMPLIFIED BREACH'}
+          </span>
+        )}
       </div>
 
-      {!isSimulatable ? (
+      {!selectedDam ? (
         <div style={{
           backgroundColor: '#FFFBEB',
           border: '1px solid #FDE68A',
@@ -42,7 +56,7 @@ export default function BreachControls({ selectedDam, onRunSimulation, loading }
         }}>
           <AlertOctagon size={24} style={{ flexShrink: 0 }} />
           <div>
-            <strong>Pilot Dam Required:</strong> Please select <strong>Tehri Dam</strong> or <strong>Sardar Sarovar Dam</strong> on the map to trigger interactive 2D breach simulations.
+            Select any dam on the map or dataset selector to configure breach parameters.
           </div>
         </div>
       ) : (
@@ -145,11 +159,11 @@ export default function BreachControls({ selectedDam, onRunSimulation, loading }
             {loading ? (
               <>
                 <RefreshCw size={18} className="spin" style={{ animation: 'spin 1s linear infinite' }} />
-                Computing Froehlich 2D Routing...
+                {isAdvanced ? 'Running DualSPHysics SPH + 1D Saint-Venant Solver...' : 'Computing Froehlich 2D Hydrodynamic Routing...'}
               </>
             ) : (
               <>
-                <Play size={18} fill="currentColor" /> Run Hydrodynamic Simulation
+                <Play size={18} fill="currentColor" /> Run {isAdvanced ? 'ADVANCED SPH + 1D HYDRO' : 'SIMULATION'}
               </>
             )}
           </button>

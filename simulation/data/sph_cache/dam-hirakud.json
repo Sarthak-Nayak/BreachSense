@@ -1,0 +1,137 @@
+{
+  "engine": "DualSPHysics / SPH Particle Solver",
+  "q_peak_cumec": 779905.31,
+  "b_avg_m": 553.72,
+  "t_f_hrs": 4.5,
+  "t_f_mins": 270.0,
+  "effective_head_m": 60.96,
+  "breach_volume_mcm": 5896.0,
+  "particle_count": 7714,
+  "hydrograph": [
+    {
+      "time_min": 0,
+      "time_hr": 0.0,
+      "discharge_cumec": 0.0
+    },
+    {
+      "time_min": 15,
+      "time_hr": 0.25,
+      "discharge_cumec": 3543.81
+    },
+    {
+      "time_min": 30,
+      "time_hr": 0.5,
+      "discharge_cumec": 13907.78
+    },
+    {
+      "time_min": 45,
+      "time_hr": 0.75,
+      "discharge_cumec": 30690.72
+    },
+    {
+      "time_min": 60,
+      "time_hr": 1.0,
+      "discharge_cumec": 53491.45
+    },
+    {
+      "time_min": 75,
+      "time_hr": 1.25,
+      "discharge_cumec": 81908.78
+    },
+    {
+      "time_min": 90,
+      "time_hr": 1.5,
+      "discharge_cumec": 115541.53
+    },
+    {
+      "time_min": 105,
+      "time_hr": 1.75,
+      "discharge_cumec": 153988.51
+    },
+    {
+      "time_min": 120,
+      "time_hr": 2.0,
+      "discharge_cumec": 196848.53
+    },
+    {
+      "time_min": 135,
+      "time_hr": 2.25,
+      "discharge_cumec": 243720.41
+    },
+    {
+      "time_min": 150,
+      "time_hr": 2.5,
+      "discharge_cumec": 294202.96
+    },
+    {
+      "time_min": 165,
+      "time_hr": 2.75,
+      "discharge_cumec": 347895.0
+    },
+    {
+      "time_min": 180,
+      "time_hr": 3.0,
+      "discharge_cumec": 404395.35
+    },
+    {
+      "time_min": 195,
+      "time_hr": 3.25,
+      "discharge_cumec": 463302.8
+    },
+    {
+      "time_min": 210,
+      "time_hr": 3.5,
+      "discharge_cumec": 524216.19
+    },
+    {
+      "time_min": 225,
+      "time_hr": 3.75,
+      "discharge_cumec": 586734.32
+    },
+    {
+      "time_min": 240,
+      "time_hr": 4.0,
+      "discharge_cumec": 650456.01
+    },
+    {
+      "time_min": 255,
+      "time_hr": 4.25,
+      "discharge_cumec": 714980.07
+    },
+    {
+      "time_min": 270,
+      "time_hr": 4.5,
+      "discharge_cumec": 779905.31
+    },
+    {
+      "time_min": 285,
+      "time_hr": 4.75,
+      "discharge_cumec": 758539.4
+    },
+    {
+      "time_min": 300,
+      "time_hr": 5.0,
+      "discharge_cumec": 737758.81
+    },
+    {
+      "time_min": 315,
+      "time_hr": 5.25,
+      "discharge_cumec": 717547.53
+    },
+    {
+      "time_min": 330,
+      "time_hr": 5.5,
+      "discharge_cumec": 697889.94
+    },
+    {
+      "time_min": 345,
+      "time_hr": 5.75,
+      "discharge_cumec": 678770.88
+    },
+    {
+      "time_min": 360,
+      "time_hr": 6.0,
+      "discharge_cumec": 660175.59
+    }
+  ]
+}

@@ -23,11 +23,17 @@ export default function DamDetailPanel({ dam }) {
             {dam.river} &bull; {dam.state} ({dam.district})
           </span>
         </div>
-        {dam.is_pilot ? (
-          <span className="badge badge-pilot">PILOT MODEL</span>
-        ) : (
-          <span className="badge badge-coming">STANDARD DAM</span>
-        )}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.2rem' }}>
+          {dam.engine_tier === 'advanced' || dam.is_pilot ? (
+            <span className="badge" style={{ backgroundColor: '#DCFCE7', color: '#15803D', border: '1px solid #86EFAC', fontWeight: 700, fontSize: '0.72rem', padding: '0.2rem 0.5rem' }}>
+              ADVANCED SPH + 1D HYDRO
+            </span>
+          ) : (
+            <span className="badge" style={{ backgroundColor: '#F1F5F9', color: '#475569', border: '1px solid #CBD5E1', fontWeight: 600, fontSize: '0.72rem', padding: '0.2rem 0.5rem' }}>
+              SIMPLIFIED BREACH
+            </span>
+          )}
+        </div>
       </div>
 
       <div style={{
@@ -85,6 +91,32 @@ export default function DamDetailPanel({ dam }) {
         <div><strong>Structure Type:</strong> {dam.type}</div>
         <div><strong>Spillway Capacity:</strong> {dam.spillway_capacity_cumec ? `${dam.spillway_capacity_cumec.toLocaleString()} m³/s` : 'N/A'}</div>
         <div><strong>Downstream Cities:</strong> {dam.downstream_city}</div>
+      </div>
+
+      {/* Hydrodynamic Engine Tier Physics Breakdown */}
+      <div style={{
+        marginTop: '0.75rem',
+        padding: '0.65rem 0.8rem',
+        borderRadius: '6px',
+        backgroundColor: dam.engine_tier === 'advanced' || dam.is_pilot ? '#F0FDF4' : '#F8FAFC',
+        border: `1px solid ${dam.engine_tier === 'advanced' || dam.is_pilot ? '#DCFCE7' : '#E2E8F0'}`,
+        fontSize: '0.74rem'
+      }}>
+        <div style={{ fontWeight: 700, color: dam.engine_tier === 'advanced' || dam.is_pilot ? '#166534' : '#334155', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <ShieldCheck size={14} color={dam.engine_tier === 'advanced' || dam.is_pilot ? '#15803D' : '#475569'} />
+          {dam.engine_tier === 'advanced' || dam.is_pilot ? 'ADVANCED ENGINE TIER (Pilot Dam)' : 'SIMPLIFIED ENGINE TIER (Standard Dam)'}
+        </div>
+        <div style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+          {dam.engine_tier === 'advanced' || dam.is_pilot ? (
+            <span>
+              Couples <strong>DualSPHysics SPH</strong> near-field particle hydrodynamics (Tait EOS, 8,000+ particles) with <strong>1D Saint-Venant shallow water equations</strong> (Delft3D D-Flow FM equivalent) for wave routing.
+            </span>
+          ) : (
+            <span>
+              Employs <strong>Froehlich (2008) empirical outflow model</strong> ($Q_p = 0.69 V_w^{0.428} h_w^{0.653}$) coupled with 2D hydrologic wave celerity routing.
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
