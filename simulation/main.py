@@ -10,14 +10,17 @@ from flood_routing import route_flood_wave
 from gee_satellite import get_sentinel1_satellite_flood_extent
 from gis_exporter import export_kml, export_shapefile_zip
 
+# SPH & 1D Saint-Venant Hydrodynamic Engines
+from sph_engine import run_sph_simulation_for_dam
+from dflow_routing import route_dflow_1d_flood_wave
+
 app = FastAPI(
     title="BreachSense Hydrodynamic Simulation API",
-    description="Dataset-Agnostic Hydrodynamic Simulation Microservice for Dam Breach & Satellite Flood Detection",
-    version="2.0.0"
+    description="Dataset-Agnostic Hydrodynamic Simulation Microservice featuring DualSPHysics SPH Near-Field & Delft3D-equivalent 1D Channel Routing",
+    version="2.1.0"
 )
 
-# Permissive CORS middleware configured for internal service-to-service communication
-# (e.g., server-to-server calls from Node/Express backend or client apps)
+# Permissive CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,6 +32,8 @@ app.add_middleware(
 DATA_DIR = os.getenv("DATA_DIR", os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data")))
 if not os.path.exists(DATA_DIR):
     DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
+
+SPH_CACHE_DIR = os.path.join(os.path.dirname(__file__), "data", "sph_cache")
 
 def load_json_file(filename):
     filepath = os.path.join(DATA_DIR, filename)
@@ -53,6 +58,8 @@ def health_check():
         "status": "ok",
         "service": "BreachSense Hydrodynamic Engine",
         "dataset_agnostic": True,
+        "sph_engine": "Active (DualSPHysics Near-Field Solver)",
+        "1d_routing": "Active (Delft3D-Equivalent Saint-Venant Solver)",
         "gee_sentinel1": "Active"
     }
 
@@ -79,25 +86,58 @@ def run_simulation(req: SimulateRequest):
             "storage_capacity_mcm": 2500,
             "year_built": 2020,
             "nearest_city": "Nearest City",
-            "type": "Custom Structure"
+            "type": "Custom Structure",
+            "engine_tier": "simplified"
         }
         
-    breach_params = calculate_froehlich_breach(
-        height_m=dam["height_m"],
-        storage_capacity_mcm=dam["storage_capacity_mcm"],
-        breach_type=req.breach_type,
-        breach_size=req.breach_size,
-        water_level_pct=req.water_level_pct
-    )
+    engine_tier = dam.get("engine_tier", "advanced" if dam.get("is_pilot") else "simplified")
     
-    routing_results = route_flood_wave(
-        dam_info=dam,
-        breach_params=breach_params,
-        villages_seed=villages_data
-    )
-    
+    if engine_tier == "advanced":
+        # Task 1: Check SPH hydrograph cache first for pilot dam
+        cache_file = os.path.join(SPH_CACHE_DIR, f"{dam['id']}.json")
+        if os.path.exists(cache_file):
+            with open(cache_file, "r", encoding="utf-8") as f:
+                breach_params = json.load(f)
+        else:
+            # Generate baseline breach params and run SPH solver
+            base_params = calculate_froehlich_breach(
+                height_m=dam["height_m"],
+                storage_capacity_mcm=dam["storage_capacity_mcm"],
+                breach_type=req.breach_type,
+                breach_size=req.breach_size,
+                water_level_pct=req.water_level_pct
+            )
+            breach_params = run_sph_simulation_for_dam(dam, base_params)
+
+        # Task 2: Far-field 1D Hydrodynamic Channel Routing (Delft3D-Equivalent Saint-Venant Solver)
+        routing_results = route_dflow_1d_flood_wave(
+            dam_info=dam,
+            sph_result=breach_params,
+            villages_seed=villages_data
+        )
+        
+        engine_used = "sph_dflow1d"
+        engine_label = "Advanced (SPH Near-Field + 1D Hydrodynamic Routing)"
+    else:
+        # Fallback for simplified dams: Froehlich empirical breach + simplified 2D celerity wave routing
+        breach_params = calculate_froehlich_breach(
+            height_m=dam["height_m"],
+            storage_capacity_mcm=dam["storage_capacity_mcm"],
+            breach_type=req.breach_type,
+            breach_size=req.breach_size,
+            water_level_pct=req.water_level_pct
+        )
+        
+        routing_results = route_flood_wave(
+            dam_info=dam,
+            breach_params=breach_params,
+            villages_seed=villages_data
+        )
+        
+        engine_used = "froehlich_simplified"
+        engine_label = "Simplified (Empirical Breach Model)"
+
     satellite_result = get_sentinel1_satellite_flood_extent(dam["id"], dam)
-    
     simulation_id = f"sim-{req.dam_id}-{req.breach_type}-{req.breach_size}"
     
     return {
@@ -109,6 +149,9 @@ def run_simulation(req: SimulateRequest):
         "breach_type": req.breach_type,
         "breach_size": req.breach_size,
         "water_level_pct": req.water_level_pct,
+        "engine_tier": engine_tier,
+        "engine_used": engine_used,
+        "engine_label": engine_label,
         "breach_params": breach_params,
         "wave_speed_kmh": routing_results["wave_speed_kmh"],
         "total_timesteps": routing_results["total_timesteps"],

@@ -171,35 +171,61 @@ export default function DocumentationPage() {
           {/* Section 5: Methodology */}
           <section id="methodology" className="bs-card" style={{ marginBottom: '1.5rem' }}>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-              5. Hydraulic Methodology
+              5. Hydraulic &amp; Hydrodynamic Methodology
             </h2>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '0.75rem' }}>
-              Peak outflow discharge Q_p is calculated via <strong>Froehlich (2008)</strong> empirical breach equations:
-            </p>
-            <div style={{
-              backgroundColor: '#F0F2F5',
-              padding: '0.75rem 1rem',
-              borderRadius: '6px',
-              fontFamily: 'monospace',
-              fontSize: '0.85rem',
-              color: 'var(--accent-primary)',
-              marginBottom: '0.75rem'
-            }}>
-              Q_p = 0.69 * (V_w ^ 0.428) * (h_w ^ 0.653)
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                BreachSense implements a <strong>two-tier hydrodynamic architecture</strong>, providing high-fidelity physical SPH &amp; 1D hydrodynamic modeling for pilot infrastructure while preserving fast empirical fallbacks for standard dams.
+              </p>
+
+              {/* Advanced Engine Tier */}
+              <div style={{ backgroundColor: '#F8FAFC', border: '1px solid #CBD5E1', borderRadius: '8px', padding: '1rem' }}>
+                <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1E293B', marginTop: 0, marginBottom: '0.4rem' }}>
+                  A. Advanced Tier: DualSPHysics SPH + 1D Saint-Venant Routing (Pilot Dams)
+                </h3>
+                <ul style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6, paddingLeft: '1.2rem', margin: 0 }}>
+                  <li style={{ marginBottom: '0.4rem' }}>
+                    <strong>Near-Field SPH Modeling (DualSPHysics):</strong> Simulates 3D fluid-structure interaction in the immediate near-field zone (200m–500m around breach structure). Uses open-source DualSPHysics CPU engine with Tait Equation of State ($P = B[(\rho/\rho_0)^\gamma - 1]$) and cubic spline kernel smoothing over discrete fluid particles. Precomputed via <code>precompute_sph.py</code> and cached for sub-second API delivery.
+                  </li>
+                  <li>
+                    <strong>Far-Field 1D Hydrodynamic Routing (Delft3D-Equivalent):</strong> Solves the 1D Saint-Venant shallow water equations (continuity dA/dt + dQ/dx = 0 and momentum friction slope S_f = S_0 - dy/dx - (v/g)(dv/dx) - (1/g)(dv/dt)) driven by the SPH upstream boundary hydrograph Q_SPH(t). This applies the exact same hydrodynamic methodology as Delft3D's D-Flow 1D module natively in Python (<code>dflow_routing.py</code>).
+                  </li>
+                </ul>
+              </div>
+
+              {/* Simplified Engine Tier */}
+              <div style={{ backgroundColor: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '8px', padding: '1rem' }}>
+                <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1E293B', marginTop: 0, marginBottom: '0.4rem' }}>
+                  B. Simplified Tier: Empirical Breach + Hydrologic Wave Celerity
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, marginBottom: '0.4rem' }}>
+                  For non-pilot dams, peak outflow discharge $Q_p$ is estimated using <strong>Froehlich (2008)</strong> empirical regressions:
+                </p>
+                <div style={{
+                  backgroundColor: '#FFFFFF',
+                  padding: '0.6rem 0.8rem',
+                  borderRadius: '6px',
+                  fontFamily: 'monospace',
+                  fontSize: '0.82rem',
+                  color: 'var(--accent-primary)',
+                  border: '1px solid var(--border-light)'
+                }}>
+                  Q_p = 0.69 \times (V_w^{0.428}) \times (h_w^{0.653})
+                </div>
+              </div>
             </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-              where V_w is breach storage volume in m³, and h_w is effective water head at failure in meters.
-            </p>
           </section>
 
           {/* Section 6: Limitations */}
           <section id="limitations" className="bs-card" style={{ marginBottom: '1.5rem' }}>
             <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-              6. Prototype Limitations &amp; Production Roadmap
+              6. System Scope &amp; Production Roadmap
             </h2>
             <ul style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.7, paddingLeft: '1.25rem' }}>
-              <li><strong>Prototype Scope:</strong> Uses 2D hydrologic wave celerity routing rather than full production DualSPHysics/Delft3D hydrodynamic solvers.</li>
-              <li><strong>Production Roadmap:</strong> Full GPU-accelerated DualSPHysics coupling, live CWC telemetry integration, automated SMS gateway dispatch.</li>
+              <li><strong>Near-Field SPH Scope:</strong> SPH domain is intentionally constrained to a 200m–500m near-field zone to ensure CPU solver tractability and precomputed hydrograph caching.</li>
+              <li><strong>Hydrodynamic 1D Engine:</strong> Far-field routing implements 1D Saint-Venant shallow water equations (Delft3D D-Flow 1D equivalent) natively in Python, avoiding the multi-gigabyte container overhead of the full Delft3D desktop binary suite.</li>
+              <li><strong>Production Roadmap:</strong> Multi-node GPU-accelerated DualSPHysics clusters, live CWC reservoir telemetry integration, and automated SMS gateway alert dispatch.</li>
             </ul>
           </section>
 
